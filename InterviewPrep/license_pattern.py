@@ -5,27 +5,28 @@ nth License Pattern of 5; order is numbers first, then letters
 class LicensePattern:
     def __init__(self):
         self.letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-    # this may be inefficient, update later
+        
+        # set the size of license to 5, and calculates number of outcomes per case
+        # cases are: 5 numbers, 4 numbers + 1 letter, 3 numbers + 2 letters, 2 numbers + 3 letters, 1 number + 4 letters, 5 letters
+        self.block = []
+        for letters in range(6):
+            num_digits = 5 - letters
+            total = (10 ** num_digits) * (26 ** letters)
+            self.block.append((num_digits, letters, total))
+    
     def __writeNumbers(self, num, req_length):
-        return num.zfill(req_length)
+        return num.rjust(req_length, "0")
 
     def getPattern(self, n):
         # since n starts at 1, with string starting as 00000, the index is actually n - 1
         index = n - 1
         positions = 5  # license plates of length 5 max
     
-        # determine how many letters at the end
-        num_digits = 5
-        total = 10 ** 5
-        letters = 0
-        
-        # determines number of numbers, letters required in the license plate
-        while index >= total:
+        # determines which category index belongs to, then obtain the leftover of index
+        for num_digits, letters, total in self.block:
+            if index < total:
+                break
             index -= total
-            letters += 1
-            num_digits = 5 - letters
-            total = (10 ** num_digits) * (26 ** letters)
     
         # split numeric and letters
         number_part = index % (10 ** num_digits)
@@ -40,15 +41,12 @@ class LicensePattern:
     
         # write letter part
         second_part = ""
-        leftover_letters = letters
-
-        # double while loop is relatively inefficient, update later
+        
         # leftover space will be used to write down the letters needed
-        while leftover_letters > 0:
+        for i in range(letters):
             second_part = self.letters[char_part % 26] + second_part
             char_part //= 26
-            leftover_letters -= 1
-    
+        
         # return final result
         return first_part + second_part
     
@@ -73,5 +71,4 @@ print(sol.getPattern(5234687))  # 6NXCU
 print(sol.getPattern(7363360))  # 9ZZZZ
 print(sol.getPattern(7363361))  # AAAAA
 print(sol.getPattern(19244736)) # ZZZZZ, which is the maximum before out of range
-
 
