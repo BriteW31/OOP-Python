@@ -5,7 +5,8 @@ nth License Pattern of 5; order is numbers first, then letters
 class LicensePattern:
     def __init__(self):
         self.letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    
+
+    # this may be inefficient, update later
     def __writeNumbers(self, num, req_length):
         return num.zfill(req_length)
 
@@ -40,7 +41,8 @@ class LicensePattern:
         # write letter part
         second_part = ""
         leftover_letters = letters
-        
+
+        # double while loop is relatively inefficient, update later
         # leftover space will be used to write down the letters needed
         while leftover_letters > 0:
             second_part = self.letters[char_part % 26] + second_part
@@ -71,4 +73,5 @@ print(sol.getPattern(5234687))  # 6NXCU
 print(sol.getPattern(7363360))  # 9ZZZZ
 print(sol.getPattern(7363361))  # AAAAA
 print(sol.getPattern(19244736)) # ZZZZZ, which is the maximum before out of range
+
 
