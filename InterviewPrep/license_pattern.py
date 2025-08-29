@@ -78,5 +78,7 @@ print(sol.getPattern(5234687))  # 6NXCU
 print(sol.getPattern(7363360))  # 9ZZZZ
 print(sol.getPattern(7363361))  # AAAAA
 print(sol.getPattern(19244736)) # ZZZZZ, which is the maximum before out of range
+print(sol.getPattern(19244738)) # Out of Range of 00000 to ZZZZZ
+
 
 
