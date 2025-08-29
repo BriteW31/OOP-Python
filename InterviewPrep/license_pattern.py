@@ -5,22 +5,29 @@ nth License Pattern of 5; order is numbers first, then letters
 class LicensePattern:
     def __init__(self):
         self.letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        
+        self.max = 0
+        self.block = []
+        self.__initBlock()
+
+    def __initBlock(self):
         # set the size of license to 5, and calculates number of outcomes per case
         # cases are: 5 numbers, 4 numbers + 1 letter, 3 numbers + 2 letters, 2 numbers + 3 letters, 1 number + 4 letters, 5 letters
-        self.block = []
         for letters in range(6):
             num_digits = 5 - letters
             total = (10 ** num_digits) * (26 ** letters)
             self.block.append((num_digits, letters, total))
-    
+            self.max += total
+        
     def __writeNumbers(self, num, req_length):
         return num.rjust(req_length, "0")
 
     def getPattern(self, n):
+        # error check
+        if n > self.max:
+            return "Out of Range of 00000 to ZZZZZ"
+        
         # since n starts at 1, with string starting as 00000, the index is actually n - 1
         index = n - 1
-        positions = 5  # license plates of length 5 max
     
         # determines which category index belongs to, then obtain the leftover of index
         for num_digits, letters, total in self.block:
@@ -71,4 +78,5 @@ print(sol.getPattern(5234687))  # 6NXCU
 print(sol.getPattern(7363360))  # 9ZZZZ
 print(sol.getPattern(7363361))  # AAAAA
 print(sol.getPattern(19244736)) # ZZZZZ, which is the maximum before out of range
+
 
